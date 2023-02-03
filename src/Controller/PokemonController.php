@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\PokeClient; 
 use App\Service\PokemonSorter; 
+use App\Service\CacheData; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,7 +15,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 class PokemonController extends AbstractController
 {
     #[Route('/pokemon/{order_select}', name: 'app_pokemon')]
-    public function index(Request $request, PaginatorInterface $paginator, PokeClient $pokeClient, PokemonSorter $pokemonSorter,string $order_select = 'id'): Response
+    public function index(Request $request, PaginatorInterface $paginator, PokeClient $pokeClient, PokemonSorter $pokemonSorter, CacheData $cacheData, string $order_select = 'id'): Response
     {
 
         /* $generation = $this->getParameter('POKEMON_GENERATION');
@@ -24,9 +25,10 @@ class PokemonController extends AbstractController
             $api = $pokeClient->getPokemonGeneration($generation);
             $liste_temp = [];
             $pokemon_list = $api['pokemon_species'];
-            for ($i=0; $i<count($pokemon_list); $i++) {
-                $pokemon_details = $pokeClient->getPokemonDetails($pokemon_list[$i]['name']);
-                if ($pokemon_details != [] )$liste_temp[]=$pokemon_details;
+            foreach ($pokemon_list as $pokemon)
+            {
+                $pokemon_details = $pokeClient->getPokemonDetails($pokemon['name']);
+                $pokemon_details != [] ? $liste_temp[]=$pokemon_details : null;
             }
             $productsCount->set($liste_temp);
             $cache->save($productsCount);
@@ -35,16 +37,7 @@ class PokemonController extends AbstractController
         
         $generation = $this->getParameter('POKEMON_GENERATION');
 
-        $api = $pokeClient->getPokemonGeneration($generation);
-        $liste_temp = [];
-        $pokemon_list = $api['pokemon_species'];
-        foreach ($pokemon_list as $pokemon)
-        {
-            $pokemon_details = $pokeClient->getPokemonDetails($pokemon['name']);
-            $pokemon_details != [] ? $liste_temp[]=$pokemon_details : null;
-        }
-            
-        
+        $liste_temp = $cacheData->getCachePokemonGenerationList($generation, $pokeClient);
 
         $liste_valide = $pokemonSorter->getPokemonSorter($liste_temp, $order_select);
 
