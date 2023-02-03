@@ -4,25 +4,38 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		<h1>Hello
-			{{ controller_name }}! ✅</h1>
+	<div class="container-fluid">
+
+
+		<h1>Liste des pokemons</h1>
 		<a href="/pokemon/id">Id</a>
 		<a href="/pokemon/name">Name</a>
 		<a href="/pokemon/id">Type</a>
-
-
-		<ul>
+		<div class="row">
 			{% for pokemon in data %}
-				<li>
-					<a href="/pokemon-details/{{ pokemon.name }}" aria-label="Page vers le produit">{{pokemon.id}}
-						-
-						{{pokemon.name}}
-						-
-						{{pokemon.types[0].type.name}}</a>
-				</li>
+				<div class="col-sm-3 p-4">
+					<div class="row bg-light">
+						<div class="col-6">
+							<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{pokemon.id}}.png"/>
+						</div>
+						<div class="col-6">
+							<a href="/pokemon-details/{{ pokemon.name }}" aria-label="Page vers le produit">
+								<div>
+									<h2>{{pokemon.name}}</h2>
+									<h4>{{pokemon.id}}</h4>
+									<p>{{pokemon.types[0].type.name}}</p>
+								</div>
+							</a>
+						</div>
+
+					</div>
+
+				</div>
 			{% endfor %}
-		</ul>
+
+		</div>
+
+
 		<div>
 			{{ knp_pagination_render(data) }}
 
