@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Service\CallApiService; 
+use App\Service\PokeClient; 
 
 #[AsCommand(
     name: 'app:export-csv',
@@ -17,16 +17,16 @@ use App\Service\CallApiService;
 )]
 class ExportDataCommand extends Command
 {
-    /** @var CallApiService */
-    protected $callApiService;
+    /** @var PokeClient */
+    protected $pokeClient;
 
     /**
      * RunCommand constructor.
-     * @param CallApiService $callApiService
+     * @param PokeClient $pokeClient
      */
-    public function __construct(CallApiService $callApiService)
+    public function __construct(PokeClient $pokeClient)
     {
-        $this->callApiService = $callApiService;
+        $this->pokeClient = $pokeClient;
         parent::__construct();
     }
 
@@ -41,23 +41,17 @@ class ExportDataCommand extends Command
     {
         $file = 'pokedex.csv';
 
-        $data = [
-            ['nom' => 'John', 'age' => 25],
-            ['nom' => 'Jane', 'age' => 30],
-            ['nom' => 'Jim', 'age' => 35],
-        ];
-
         $application = $this->getApplication();
         $container = $application->getKernel()->getContainer();
         $generation = $container->getParameter('POKEMON_GENERATION');
 
-        $api = $this->callApiService->getFranceData($generation);
+        $api = $this->pokeClient->getPokemonGeneration($generation);
         
         $data = [];
         $pokemon_list = $api['pokemon_species'];
 
         for ($i=0; $i<count($pokemon_list); $i++) {
-            $pokemon_details = $this->callApiService->getFranceCsvData($pokemon_list[$i]['name']);
+            $pokemon_details = $this->pokeClient->getPokemonCsv($pokemon_list[$i]['name']);
             if ($pokemon_details != [] )$data[]=$pokemon_details;
         }
 

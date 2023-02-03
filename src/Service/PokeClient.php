@@ -5,7 +5,7 @@ namespace App\Service;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 
-class CallApiService
+class PokeClient
 {
     private $client;
 
@@ -14,7 +14,7 @@ class CallApiService
         $this->client = $client;
     }
 
-    public function getFranceData($generation)
+    public function getPokemonGeneration($generation)
     {
         $response = $this->client->request('GET','https://pokeapi.co/api/v2/generation/'.$generation);
         $statusCode = $response->getStatusCode();
@@ -23,7 +23,7 @@ class CallApiService
         $content = $response->toArray();
         return $content;
     }
-    public function getFranceDetailsData($name): array
+    public function getPokemonDetails($name): array
     {
         $response = $this->client->request('GET','https://pokeapi.co/api/v2/pokemon/'.$name);
         $statusCode = $response->getStatusCode();
@@ -34,7 +34,7 @@ class CallApiService
         return $content;
     }
 
-    public function getFranceCsvData($name): array
+    public function getPokemonCsv($name): array
     {
         $response = $this->client->request('GET','https://pokeapi.co/api/v2/pokemon/'.$name);
         $statusCode = $response->getStatusCode();
