@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Service\PokeClient; 
-use App\Service\PokemonSorter; 
-use App\Service\CacheData; 
+use App\Service\PokeClient;
+use App\Service\PokemonSorter;
+use App\Service\CacheData;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,8 +33,8 @@ class PokemonController extends AbstractController
             $productsCount->set($liste_temp);
             $cache->save($productsCount);
         }
-        $liste = $productsCount->get();  */  
-        
+        $liste = $productsCount->get();  */
+
         $generation = $this->getParameter('POKEMON_GENERATION');
 
         $liste_temp = $cacheData->getCachePokemonGenerationList($generation, $pokeClient);
@@ -57,7 +57,7 @@ class PokemonController extends AbstractController
     public function show(PokeClient $pokeClient, $name): Response
     {
         $api = $pokeClient->getPokemonDetails($name);
-        
+
         return $this->render('pokemon/show.html.twig', [
             'data' => $api
         ]);

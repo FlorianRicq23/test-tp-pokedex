@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Service\PokeClient; 
+use App\Service\PokeClient;
 
 #[AsCommand(
     name: 'app:export-csv',
@@ -33,8 +33,7 @@ class ExportDataCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Exports data to a CSV file.')
-        ;
+            ->setDescription('Exports data to a CSV file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -46,13 +45,13 @@ class ExportDataCommand extends Command
         $generation = $container->getParameter('POKEMON_GENERATION');
 
         $api = $this->pokeClient->getPokemonGeneration($generation);
-        
+
         $data = [];
         $pokemon_list = $api['pokemon_species'];
 
-        for ($i=0; $i<count($pokemon_list); $i++) {
+        for ($i = 0; $i < count($pokemon_list); $i++) {
             $pokemon_details = $this->pokeClient->getPokemonCsv($pokemon_list[$i]['name']);
-            if ($pokemon_details != [] )$data[]=$pokemon_details;
+            if ($pokemon_details != []) $data[] = $pokemon_details;
         }
 
         $handle = fopen($file, 'w');
@@ -71,6 +70,5 @@ class ExportDataCommand extends Command
         $output->writeln(sprintf('Data exported to %s', $file));
 
         return 0;
-
     }
 }
