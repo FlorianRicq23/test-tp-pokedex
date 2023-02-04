@@ -1,11 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PokemonController!{% endblock %}
-
 {% block body %}
 
-<div>
-    <h1>Hello {{ data.name }}! ✅</h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1>{{data.name}}
+					#{{data.id}}</h1>
+			</div>
+			<div class="col-6">
+				<img class=" mx-auto d-block" style="height:200px" src="https://img.pokemondb.net/artwork/large/{{data.name}}.jpg"/>
+			</div>
+			<div class="col-6">
+				<ul>
+					<li>Height :
+						{{data.height}}
+						cm</li>
+					<li>Weight :
+						{{data.height}}
+						kg</li>
+					<li>Hp : {{data.stats[0].base_stat}}</li>
+					<li>Attack : {{data.stats[1].base_stat}}</li>
+					<li>Defense : {{data.stats[2].base_stat}}</li>
+					<li>Special-attack : {{data.stats[3].base_stat}}</li>
+					<li>Special-defense : {{data.stats[4].base_stat}}</li>
+					<li>Speed : {{data.stats[5].base_stat}}</li>
 
-</div>
+				</ul>
+			</div>
+
+		</div>
+	</div>
 {% endblock %}

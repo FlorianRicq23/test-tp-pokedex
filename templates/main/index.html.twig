@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    Vous voici sur la page d'accueil
-    <ul>
-        <li>Explication du tp et debrief</li>
-        <li>Le pokedex :  <a href="{{ '/pokemon' }}">pokedex</a></li>
-    </ul>
-</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h1>Vous vous trouvez sur la page d'accueil</h1>
+			</div>
+			<div class="col-12">
+				<ul>
+					<li>Les pokémons se trouvent ici :
+						<a href="{{ '/pokemon' }}">pokedex</a>
+					</li>
+					<li>La génération des pokémons est la 6e</li>
+					<li>La commande <code>php bin/console app:export-csv</code> vous permettra de générer un fichier CSV contenant la liste des pokémons</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 {% endblock %}
