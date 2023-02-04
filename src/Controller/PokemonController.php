@@ -17,7 +17,6 @@ class PokemonController extends AbstractController
     #[Route('/pokemon/{order_select}', name: 'app_pokemon')]
     public function index(Request $request, PaginatorInterface $paginator, PokeClient $pokeClient, PokemonSorter $pokemonSorter, CacheData $cacheData, string $order_select = 'id'): Response
     {
-
         /* $generation = $this->getParameter('POKEMON_GENERATION');
         $cache = new FilesystemAdapter();
         $productsCount = $cache->getItem('products_count');
